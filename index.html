@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+
+	<head lang="en">
+		<meta charset="UTF-8">
+		<title>AJAX</title>
+		<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+	</head>
+
+	<body>
+		<!--伪造Ajax-->
+		<!--iframe就是我们常用的iframe标签：<iframe>。iframe标签是框架的一种形式，也比较常用到，iframe一般用来包含别的页面，例如我们可以在我们自己的网站页面加载别人网站或者本站其他页面的内容。
+			iframe标签的最大作用就是让页面变得美观。iframe标签的用法有很多，主要区别在于对iframe标签定义的形式不同，例如定义iframe的长宽高。因此，iframe标签具有局部加载内容的特性，所以可以使用其来伪造Ajax请求。-->
+	  <!-- <div>
+			<p>请输入要加载的地址：<span id="currentTime"></span></p>
+			<p>
+				<input id="url" type="text" />
+				<input type="button" value="提交" onclick="LoadPage();">
+			</p>
+		</div>
+		<div>
+			<h3>加载页面位置：</h3>
+			<iframe id="iframePosition" style="width: 100%;height: 500px;"></iframe>
+		</div>
+		<script type="text/javascript">
+			window.onload = function() {
+				var myDate = new Date();
+				document.getElementById('currentTime').innerText = myDate.getTime();
+
+			};
+			function LoadPage() {
+				var targetUrl = document.getElementById('url').value;
+				document.getElementById("iframePosition").src = targetUrl;
+			}
+		</script>-->
+		<!--原理是这样的，设置一个提交按钮，再设置一个输入框，当我们输入一个网址的时候，在当前的页面加载输入网址的页面信息，呈现在iframe框里，这样就能做到不刷新URL来提交不同的信息。-->
+		<!--创建XMLHttpRequest对象-->
+	<!--	<script type="text/javascript">
+			var xmlhttp;
+			if(window.XMLHttpRequest) {
+				//  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+				xmlhttp = new XMLHttpRequest();
+			} else {
+				// IE6, IE5 浏览器执行代码
+				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+			}
+		</script>
+	<h1>XMLHttpRequest - Ajax请求</h1>
+		<input type="button" onclick="XmlGetRequest();" value="Get发送请求" />
+		<script type="text/javascript">
+			function GetXHR() {
+				var xhr = null;
+				if(XMLHttpRequest) {
+					xhr = new XMLHttpRequest();
+				} else {
+					xhr = new ActiveXObject("Microsoft.XMLHTTP");
+				}
+				return xhr;
+			}
+
+			function XmlGetRequest() {
+				var xhr = GetXHR();
+				// 定义回调函数
+				xhr.onreadystatechange = function() {
+					if(xhr.readyState == 4) {
+						// 已经接收到全部响应数据，执行以下操作
+						var data = xhr.responseText;
+						alert(data);
+					}
+				};
+				// 指定连接方式和地址----文件方式
+				xhr.open('get', "http://132.232.119.136:81/php.php", true);
+				// 发送请求
+				xhr.send();
+			}
+		</script>-->
+		<!--POST请求-->
+		<!--<h1>XMLHttpRequest - Ajax请求</h1>
+		<input type="button" onclick="XmlPostRequest();" value="Post发送请求" />
+		<script type="text/javascript">
+			function GetXHR() {
+				var xhr = null;
+				if(XMLHttpRequest) {
+					xhr = new XMLHttpRequest();
+				} else {
+					xhr = new ActiveXObject("Microsoft.XMLHTTP");
+				}
+				return xhr;
+			}
+
+			function XmlPostRequest() {
+				var xhr = GetXHR();
+				// 定义回调函数
+				xhr.onreadystatechange = function() {
+					if(xhr.readyState == 4) {
+						// 已经接收到全部响应数据，执行以下操作
+						var data = xhr.responseText;
+//						alert(data.);
+//						解析json数据
+						var obj = eval("("+data+")");
+						alert(obj.a);
+					}
+				};
+				// 指定连接方式和地址----文件方式
+				xhr.open('POST', "http://132.232.119.136:81/php.php", true);
+				// 设置请求头
+				xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset-UTF-8');
+				// 发送请求
+				xhr.send('n1=1&n2=2;');
+			}
+		</script>-->
+		<!--jquery ajax-->
+		<!--<p>
+			<input type="button" onclick="JXmlSendRequest();" value='Ajax请求' />
+		</p>
+		<script>
+			function JXmlSendRequest() {
+				$.ajax({
+					url: "https://www.runoob.com/jquery/ajax-ajax.html", // 访问url地址
+					type: 'GET', // get方式提交
+					dataType: 'text',
+					　　　　　　　　　　 // 数据类型
+					success: function(data, statusText, xmlHttpRequest) { // 成功后返回的结果
+						console.log(xmlHttpRequest.responseText);
+						alert(statusText);
+						console.log(xmlHttpRequest);
+					}
+				})
+			}
+		</script>-->
+		<!--跨域jsonp-->
+		<input type="button" value="Ajax" onclick="DoAjax();" />
+		<input type="button" value="JsonpAjax" onclick="JsonpAjax();" />
+		<script>
+			function func(arg) {
+				console.log(arg); // 输出结果就是python代码给传过来的列表[11,22,33,]
+			}
+
+			function DoAjax() {
+				$.ajax({
+					url: 'http://132.232.119.136:81/jsonp.php',
+					type: 'POST',
+					data: {
+						'k1': 'v1'
+					},
+					success: function(arg) {
+						console.log(arg);
+					}
+				});
+			}
+
+			function JsonpAjax() {
+				//            var tag = document.createElement('script');
+				//            tag.src = "http://alex.com:8002/index";
+				//            document.head.appendChild(tag);
+				//            document.head.removeChild(tag);
+				$.ajax({
+					url: 'http://132.232.119.136:81/jsonp.php',
+					dataType: 'jsonp',
+					jsonpCallBack: 'func' // 对端给返回函数名，函数接收的参数是内容
+				})
+			}
+		</script>
+		<!--跨域-CORS-简单-->
+		<!--<p>
+			<input type="submit" onclick="XmlSendRequest();" />
+		</p>
+
+		<p>
+			<input type="submit" onclick="JqSendRequest();" />
+		</p>
+		<script>
+			function XmlSendRequest() {
+				var xhr = new XMLHttpRequest();
+				xhr.onreadystatechange = function() {
+					if(xhr.readyState == 4) {
+						var result = xhr.responseText;
+						console.log(result);
+					}
+				};
+				xhr.open('GET', "http://132.232.119.136:81/jsonp.php", true);
+				xhr.send();
+			}
+
+			function JqSendRequest() {
+				$.ajax({
+					url: "http://132.232.119.136:81/jsonp.php",
+					type: 'GET',
+					dataType: 'text',
+					success: function(data, statusText, xmlHttpRequest) {
+						console.log(data);
+					}
+				})
+			}
+		</script>-->
+		<!--跨域-CORS-复杂-->
+		<!--<p>
+			<input type="submit" onclick="XmlSendRequest();" />
+		</p>
+
+		<p>
+			<input type="submit" onclick="JqSendRequest();" />
+		</p>
+		<script>
+			function XmlSendRequest() {
+				var xhr = new XMLHttpRequest();
+				xhr.onreadystatechange = function() {
+					if(xhr.readyState == 4) {
+						var result = xhr.responseText;
+						console.log(result);
+					}
+				};
+				xhr.open('PUT', "http://132.232.119.136:81/jsonp.php", true);
+				xhr.setRequestHeader('k1', 'v1');
+				xhr.send();
+			}
+
+			function JqSendRequest() {
+				$.ajax({
+					url: "http://132.232.119.136:81/jsonp.php",
+					type: 'PUT',
+					dataType: 'text',
+					headers: {
+						'k1': 'v1'
+					},
+					success: function(data, statusText, xmlHttpRequest) {
+						console.log(data);
+					}
+				})
+			}
+		</script>-->
+	</body>
+
+</html>

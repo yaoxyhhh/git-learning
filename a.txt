@@ -1,0 +1,3 @@
+[{href:"http://www.baidu.com/",img:"img/4.jpg",text:"文字介绍111"},
+{href:"http://www.taobao.com/",img:"img/8.jpg",text:"文字介绍222"},
+{href:"http://www.taobao.com/",img:"img/8.jpg",text:"文字介绍222"}]
